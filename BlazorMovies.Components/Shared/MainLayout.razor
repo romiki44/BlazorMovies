@@ -1,0 +1,47 @@
+﻿@using System.Globalization
+
+@inherits LayoutComponentBase
+@inject NavigationManager navigationManager
+@inject IJSRuntime js
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <div class="main">
+        <div class="top-row px-4">
+            <CultureSelector></CultureSelector>
+            <LoginLinks />
+            @*<a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>*@
+        </div>
+
+        <div class="content px-4" style="margin-bottom:20px;">
+            @Body
+        </div>
+    </div>
+</div>
+
+@code {      
+    [CascadingParameter] public Task<AuthenticationState> AuthenticationState { get; set; }
+
+    protected override void OnInitialized()
+    {
+        // aktivuje sa inactivityTimer (10s)
+        //await js.InitializeInactivityTimer(DotNetObjectReference.Create(this));
+        //tokenRenewer.Initiate();
+
+        CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
+
+    }
+
+    [JSInvokable]
+    public async Task Logout()
+    {
+        var authState = await AuthenticationState;
+        if (authState.User.Identity.IsAuthenticated)
+            navigationManager.NavigateTo("logout");
+
+
+    }
+}

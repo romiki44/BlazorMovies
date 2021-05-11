@@ -1,0 +1,23 @@
+<CascadingValue Value="AppMode.WebAssembly">
+    <Router AppAssembly="@typeof(Program).Assembly"
+            AdditionalAssemblies="new[] {typeof(RoutableComponent).Assembly }"
+            PreferExactMatches="@true">
+        <Found Context="routeData">
+            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+                <Authorizing>
+                    <text>Custom authorizing...</text>
+                </Authorizing>
+                <NotAuthorized>
+                    <text>User not authorized</text>
+                </NotAuthorized>
+            </AuthorizeRouteView>
+        </Found>
+        <NotFound>
+            <CascadingAuthenticationState>
+                <LayoutView Layout="@typeof(MainLayout)">
+                    <p>Sorry, there's nothing at this address.</p>
+                </LayoutView>
+            </CascadingAuthenticationState>
+        </NotFound>
+    </Router>
+</CascadingValue>

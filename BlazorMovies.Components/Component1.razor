@@ -1,0 +1,14 @@
+﻿@inject ExampleJsInterop js
+
+<div class="my-component">
+    This Blazor component is defined in the <strong>BlazorMovies.Components</strong> package.
+</div>
+
+<button @onclick="HandlePrompt">Display prompt</button>
+
+@code {
+    private async Task HandlePrompt()
+    {
+        await js.Prompt("Prompt from Razor Class Library (RCL)");
+    }
+}

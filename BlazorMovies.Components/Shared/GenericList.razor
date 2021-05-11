@@ -1,0 +1,41 @@
+﻿@typeparam TItem
+
+@if (List == null)
+{
+    <!--p>Loading movies...</p-->
+    <!--img src="https://miro.medium.com/max/882/1*9EBHIOzhE1XfMYoKz1JcsQ.gif"/-->
+    if (@ChildContent != null)
+    {
+        @ChildContent
+    }
+    else
+    {
+        <img src="https://miro.medium.com/max/882/1*9EBHIOzhE1XfMYoKz1JcsQ.gif" />
+    }
+}
+else if (List.Count == 0)
+{
+    <p>There are no records to show...</p>
+}
+else
+{
+    @if (ElementTemplate != null)
+    {
+        @foreach (var element in List)
+        {
+            @ElementTemplate(element)
+        }
+    }
+    else
+    {
+        @WholeListTemplate
+    }
+
+}
+
+@code {
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public RenderFragment<TItem> ElementTemplate { get; set; }
+    [Parameter] public RenderFragment WholeListTemplate { get; set; }
+    [Parameter] public List<TItem> List { get; set; }
+}

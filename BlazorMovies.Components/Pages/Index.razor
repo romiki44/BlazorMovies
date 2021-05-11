@@ -1,0 +1,34 @@
+﻿@page "/"
+@inject IMoviesRepository moviesRepository
+@inject IStringLocalizer<Resource> localizator
+
+@*<AuthorizeView Roles="Admin">
+    <Authorized>
+        You are authorized, @context.User.Identity.Name
+    </Authorized>
+    <NotAuthorized>
+        Not authorized
+    </NotAuthorized>
+</AuthorizeView>*@
+
+<div>
+    <h3>@localizator["intheaters"]</h3>
+    <MoviesList Movies="InTheaters" />
+</div>
+
+<div>
+    <h3>@localizator["upcomingreleases"]</h3>
+    <MoviesList Movies="UpcommingRealeases" />
+</div>
+
+@code{
+    private List<Movie> InTheaters;
+    private List<Movie> UpcommingRealeases;
+
+    protected async override Task OnInitializedAsync()
+    {
+        var response = await moviesRepository.GetIndexPageDTO();
+        InTheaters = response.Intheaters;
+        UpcommingRealeases = response.UpcomingReleases;
+    }
+}
